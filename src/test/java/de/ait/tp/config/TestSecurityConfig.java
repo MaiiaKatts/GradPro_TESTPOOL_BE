@@ -16,7 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class TestSecurityConfig {
 
     public static final String MOCK_USER = "kristina.romanova@gmail.com";
-    public static final String MOCK_ADMIN = "admin";
+    public static final String MOCK_ADMIN = "romanova@gmail.com";
     @Bean
     @Primary
     public UserDetailsService userDetailsService(){
@@ -25,11 +25,16 @@ public class TestSecurityConfig {
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 if(username.equals(MOCK_USER)){
                     return  new AuthenticatedUser(User.builder()
-                            .id(1L).email(MOCK_USER).role(User.Role.USER)
+                            .id(1L)
+                            .email(MOCK_USER)
+                            .role(User.Role.USER)
+                            .state(User.State.CONFIRMED)
+
                             .build());
                 }else if(username.equals(MOCK_ADMIN)){
                     return  new AuthenticatedUser(User.builder()
                             .id(1L).email(MOCK_ADMIN).role(User.Role.ADMIN)
+                            .state(User.State.CONFIRMED)
                             .build());
                 }else throw new UsernameNotFoundException("User not found");
             }

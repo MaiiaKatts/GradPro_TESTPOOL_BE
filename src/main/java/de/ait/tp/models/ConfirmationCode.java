@@ -1,9 +1,7 @@
 package de.ait.tp.models;
 
 import lombok.*;
-
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 
 

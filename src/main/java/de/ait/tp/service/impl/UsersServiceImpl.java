@@ -1,8 +1,6 @@
 package de.ait.tp.service.impl;
 
-import de.ait.tp.dto.NewUserDto;
-import de.ait.tp.dto.StandardResponseDto;
-import de.ait.tp.dto.UserDto;
+import de.ait.tp.dto.*;
 import de.ait.tp.exceptions.RestException;
 import de.ait.tp.mail.MailTemplatesUtil;
 import de.ait.tp.mail.TestPoolMailSender;
@@ -11,21 +9,20 @@ import de.ait.tp.models.User;
 import de.ait.tp.repositories.ConfirmationCodesRepository;
 import de.ait.tp.repositories.UsersRepository;
 import de.ait.tp.service.UsersService;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static de.ait.tp.dto.UserDto.from;
@@ -57,14 +54,11 @@ public class UsersServiceImpl implements UsersService {
         saveConfirmCode(codeValue, user);
 
         String link = createLinkForConfirmation(codeValue);
-       String html = mailTemplatesUtil.createConfirmationMail(user, link);
+        String html = mailTemplatesUtil.createConfirmationMail(user, link);
 
-        mailSender.send(user.getEmail(),"Registration",html);
+        mailSender.send(user.getEmail(), "Registration", html);
         return UserDto.from(user);
     }
-
-
-
     private String createLinkForConfirmation(String codeValue) {
         return baseUrl + "/confirm.html?id=" + codeValue;
 
@@ -121,7 +115,49 @@ public class UsersServiceImpl implements UsersService {
 
         return UserDto.from(user);
     }
+   /* @Override
+    public List<UserDto> getAllUsers() {
 
+        return from(usersRepository.findAll());
+    }*/
+    @Override
+    public Pagination getAllUsers(int page,int size,String orderBy,Boolean desc){
+        Sort sort =Sort.by(orderBy);
+        if (desc != null && desc) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<User> pageResult = usersRepository.findAll(pageRequest);
+
+        return Pagination
+                .builder()
+                .users(from(pageResult.getContent()))
+                .totalPages(pageResult.getTotalPages())
+                .build();
+
+    }
+    @Override
+    public UserDto updateUser(Long userId, UpdateUserDto updateUser) {
+
+        User user = usersRepository.findUserById(userId)
+                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND,
+                        "User with id < " + userId + "> not found >"));
+        user.setFirstName(updateUser.getFirstName());
+        user.setLastName(updateUser.getLastName());
+        usersRepository.save(user);
+        return UserDto.from(user);
+    }
+    @Override
+    public UserDto deleteUser(Long userId) {
+        User user = usersRepository.findUserById(userId)
+                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND,
+                        "Test with id <" + userId + "> not found >"));
+        usersRepository.delete(user);
+        return UserDto.from(user);
+    }
 
 }
 

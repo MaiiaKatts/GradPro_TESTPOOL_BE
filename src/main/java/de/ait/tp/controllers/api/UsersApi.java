@@ -1,8 +1,6 @@
 package de.ait.tp.controllers.api;
 
-import de.ait.tp.dto.NewUserDto;
-import de.ait.tp.dto.StandardResponseDto;
-import de.ait.tp.dto.UserDto;
+import de.ait.tp.dto.*;
 import de.ait.tp.security.details.AuthenticatedUser;
 import de.ait.tp.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,13 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-
-@Tags(@Tag(name = "Users"))
+@Tags(value = @Tag(name = "Users"))
 @RequestMapping("/api/users")
 
 public interface UsersApi {
@@ -44,8 +41,7 @@ public interface UsersApi {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
-    UserDto register(@RequestBody @Valid NewUserDto newUser) ;
-
+    UserDto register(@RequestBody @Valid NewUserDto newUser);
 
 
     @Operation(summary = "Confirmation of registration", description = "Available to registered user")
@@ -76,10 +72,73 @@ public interface UsersApi {
             @ApiResponse(responseCode = "401",
                     description = "User unauthorized",
                     content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Forbidden, only user available",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = StandardResponseDto.class)))
     })
+
 
     @GetMapping("/profile")
     UserDto getProfile(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser user);
 
-    }
+    @Operation(summary = "User update", description = "Available to user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Request processed successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TestDto.class))
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "User not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "The request was made incorrectly",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class))),
+            @ApiResponse(responseCode = "409",
+                    description = "Email, firstname or lastname already exists",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class))
+            )
+    })
+    @PutMapping("/{user_id}")
+    UserDto updateUser(@PathVariable("user_id") Long userId, UpdateUserDto updateUser);
+
+    @Operation(summary = "Delete User", description = "The user wants to leave our site" +
+            "Available to user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Request processed successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TestDto.class))
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "User not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class)))
+    })
+    @DeleteMapping("/{user_id}")
+    UserDto deleteUser(@PathVariable("user_id") Long userId);
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Receiving all users", description = "Available to admin")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Request processed successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = QuestionDto.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Users not found ",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Forbidden, only admin available",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class)))
+    })
+    @GetMapping
+    Pagination getAllUsers(@RequestParam("page") int page, @RequestParam("size") int size,
+                          @RequestParam("orderBy") String orderBy, @RequestParam(value = "desc", required = false) Boolean desc);
+}

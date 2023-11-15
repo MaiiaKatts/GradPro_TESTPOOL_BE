@@ -46,7 +46,6 @@ public class UsersIntegrationTest {
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.id", is(1)))
                     .andExpect(jsonPath("$.role", is("USER")));
-
         }
 
         @Test
@@ -78,12 +77,13 @@ public class UsersIntegrationTest {
                     .andExpect(status().isConflict());
         }
     }
+
     @Nested
     @DisplayName("GET/users/profile")
-    public class GetProfile{
+    public class GetProfile {
 
         @Test
-       public void return_401_for_unauthorized() throws Exception {
+        public void return_401_for_unauthorized() throws Exception {
             mockMvc.perform(get("/api/users/profile"))
                     .andExpect(status().isUnauthorized());
         }
@@ -92,11 +92,11 @@ public class UsersIntegrationTest {
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
         @Test
-        public void return_information_about_current_user() throws Exception{
+        public void return_information_about_current_user() throws Exception {
             mockMvc.perform(get("/api/users/profile"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id",is(1)))
-                    .andExpect(jsonPath("$.role",is("USER")));
+                    .andExpect(jsonPath("$.id", is(1)))
+                    .andExpect(jsonPath("$.role", is("USER")));
         }
 
     }

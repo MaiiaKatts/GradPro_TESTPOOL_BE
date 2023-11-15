@@ -49,8 +49,6 @@ public class AppConfig {
                 .paths(buildAuthenticationPath())
                 .info(new Info().title("TestPool API").version("0.1"));
     }
-
-
     @Bean
     public WebMvcConfigurer cors(){
         return new WebMvcConfigurer() {

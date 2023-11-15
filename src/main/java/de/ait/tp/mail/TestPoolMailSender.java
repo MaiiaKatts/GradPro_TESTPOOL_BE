@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 @RequiredArgsConstructor
 public class TestPoolMailSender {
     private final JavaMailSender javaMailSender;
+
     @Async
     public void send(String email,String subject,String text) {
         MimeMessage message = javaMailSender.createMimeMessage();

@@ -2,7 +2,9 @@ package de.ait.tp.models;
 
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,7 +21,7 @@ import java.util.Set;
 
 public class User {
     public enum Role {
-        ADMIN, MANAGER, USER
+        ADMIN, USER
     }
     public enum State {
         NOT_CONFIRM,CONFIRMED,DELETED,BANNED
@@ -44,7 +46,25 @@ public class User {
     private State state;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private Set<ConfirmationCode> codes;
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<TestResult> testResults;
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<TestTotalResult> testTotalResults;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_question",
+            joinColumns = @JoinColumn(name = "user_id",nullable = false, referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id",
+                    nullable = false, referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = { "user_id","question_id"}))
+    @ToString.Exclude
+    private Set<Question> questions;
 
 
     @Override
@@ -60,6 +80,7 @@ public class User {
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+        return this instanceof HibernateProxy ? ((HibernateProxy) this)
+                .getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 }

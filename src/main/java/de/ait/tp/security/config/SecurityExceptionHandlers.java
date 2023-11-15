@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SecurityExceptionHandlers {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static final AuthenticationEntryPoint ENTRY_POINT = ((request, response, authException) ->
             fillResponse(response, HttpStatus.UNAUTHORIZED, "User unauthorized"));

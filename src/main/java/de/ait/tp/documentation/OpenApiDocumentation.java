@@ -1,7 +1,5 @@
 package de.ait.tp.documentation;
 
-
-
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
@@ -17,12 +15,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.util.Collections;
 
-/**
- * 6/17/2023
- * backend-demo
- *
- * @author Marsel Sidikov (AIT TR)
- */
 public class OpenApiDocumentation {
     public static Paths buildAuthenticationPath() {
         return new Paths()
@@ -57,7 +49,7 @@ public class OpenApiDocumentation {
                                                                                 .description("Session ID"))))
                                 .addApiResponse("401",
                                         new ApiResponse()
-                                                .description("Incorrect username or password")
+                                                .description("Incorrect username, password or user authorized")
                                                 .content(new Content()
                                                         .addMediaType("application/json",
                                                                 new MediaType()
