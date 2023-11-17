@@ -1,6 +1,7 @@
 package de.ait.tp.controllers.api;
 import de.ait.tp.dto.StandardResponseDto;
 import de.ait.tp.dto.TestResultDto;
+import de.ait.tp.dto.TestTotalResultDto;
 import de.ait.tp.models.TestResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,10 +26,9 @@ public interface TestResultsApi {
     @Operation(summary = "Save test result for user")
     @ApiResponse(responseCode = "200", description = "Request processed successfully",
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = TestResultDto.class)))
+                    schema = @Schema(implementation = TestTotalResultDto.class)))
     @PostMapping("/api/tests/{test_id}/questions/{question_id}/answers/{answer_id}/saveResult")
-
-    int calculateAndSaveTestResult(@PathParam("user_id") Long userId,
+    TestTotalResultDto calculateAndSaveTestResult(@PathParam("user_id") Long userId,
                                    @PathVariable("test_id") Long testId,
                                    @RequestParam List<Long> userAnswers);
 
@@ -48,5 +48,5 @@ public interface TestResultsApi {
                             schema = @Schema(implementation = StandardResponseDto.class)))
     })
  @GetMapping("/api/testResults/users/{user_id}")
- List<TestResult> getTestResultsForUser(@PathVariable("user_id") Long userId);
+    List<TestResultDto> getTestResultsForUser(@PathVariable("user_id") Long userId);
 }

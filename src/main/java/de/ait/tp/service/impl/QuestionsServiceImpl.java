@@ -5,6 +5,7 @@ import de.ait.tp.exceptions.ConflictException;
 import de.ait.tp.exceptions.RestException;
 import de.ait.tp.models.Answer;
 import de.ait.tp.models.Question;
+import de.ait.tp.dto.QuestionWithAnswersDto;
 import de.ait.tp.models.Test;
 import de.ait.tp.repositories.AnswersRepository;
 import de.ait.tp.repositories.QuestionsRepository;

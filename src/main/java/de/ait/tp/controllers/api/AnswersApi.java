@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-        @ApiResponse(responseCode = "401",
-                description = "Admin unauthorized",
-                content = @Content(mediaType = "application/json",
-                        schema = @Schema(implementation = StandardResponseDto.class)))
+@ApiResponse(responseCode = "401",
+        description = "Admin unauthorized",
+        content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = StandardResponseDto.class)))
 
 @Tags(value = @Tag(name = "Answers"))
 @Schema(name = "Answer", description = "Answers with questions_id")
@@ -54,7 +54,7 @@ public interface AnswersApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnswerDto.class))),
+                            schema = @Schema(implementation = AllAnswersDto.class))),
             @ApiResponse(responseCode = "404",
                     description = "Answers not found",
                     content = @Content(mediaType = "application/json",
@@ -72,7 +72,7 @@ public interface AnswersApi {
             @ApiResponse(responseCode = "200",
                     description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnswerDto.class))
+                            schema = @Schema(implementation = UpdateAnswerDto.class))
             ),
             @ApiResponse(responseCode = "404",
                     description = "Question or answer not found",
@@ -124,7 +124,11 @@ public interface AnswersApi {
                     description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AnswerDto.class))
-            )
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "Forbidden, only admin available",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = StandardResponseDto.class)))
     })
     @PostMapping("/api/questions/{question_id}/answers/{answer_id}")
     ResponseEntity<String> getCorrectAnswer(Long selectedAnswerId);

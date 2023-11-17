@@ -17,7 +17,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Schema(name = "UpdateTest",description = "Name,types or level update " )
 public class UpdateTestDto {
-
+    @Schema(description = "Test_ID", example = "1")
+    private Long id;
     @Schema(description = "Test name",example= "new Test")
     @NotNull
     @NotBlank

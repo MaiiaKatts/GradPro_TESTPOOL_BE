@@ -115,12 +115,12 @@ public class UsersServiceImpl implements UsersService {
 
         return UserDto.from(user);
     }
-   /* @Override
+    @Override
     public List<UserDto> getAllUsers() {
 
         return from(usersRepository.findAll());
-    }*/
-    @Override
+    }
+    /*@Override
     public Pagination getAllUsers(int page,int size,String orderBy,Boolean desc){
         Sort sort =Sort.by(orderBy);
         if (desc != null && desc) {
@@ -138,7 +138,7 @@ public class UsersServiceImpl implements UsersService {
                 .totalPages(pageResult.getTotalPages())
                 .build();
 
-    }
+    }*/
     @Override
     public UserDto updateUser(Long userId, UpdateUserDto updateUser) {
 

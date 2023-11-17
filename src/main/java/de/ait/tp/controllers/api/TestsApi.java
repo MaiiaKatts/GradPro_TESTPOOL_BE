@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@ApiResponses(value ={
+@ApiResponses(value = {
         @ApiResponse(responseCode = "401",
                 description = "Admin unauthorized",
                 content = @Content(mediaType = "application/json",
@@ -23,12 +23,12 @@ import java.util.List;
                 description = "Forbidden, only admin available",
                 content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = StandardResponseDto.class)))})
-@Tags(value=@Tag(name = "Tests"))
+@Tags(value = @Tag(name = "Tests"))
 @Schema(name = "Test", description = "Test types")
 public interface TestsApi {
 
     @Operation(summary = "Adding a test", description = "Available to admin ")
-    @ApiResponses(value ={
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Test added successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = TestDto.class))),
@@ -41,11 +41,12 @@ public interface TestsApi {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/tests")
     TestDto addTest(@RequestBody NewTestDto newTest);
+
     @Operation(summary = "Receiving all tests", description = "Available all users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TestDto.class))),
+                            schema = @Schema(implementation = AllTestsDto.class))),
 
     })
     @GetMapping("/api/tests")
@@ -56,7 +57,7 @@ public interface TestsApi {
             @ApiResponse(responseCode = "200",
                     description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TestDto.class))
+                            schema = @Schema(implementation = UpdateTestDto.class))
             ),
             @ApiResponse(responseCode = "404",
                     description = "Test not found",
@@ -74,7 +75,7 @@ public interface TestsApi {
     })
     @PutMapping("/api/tests/{test_id}")
     TestDto updateTest(@PathVariable("test_id") Long testId,
-                                     @RequestBody @Valid UpdateTestDto updateTest);
+                       @RequestBody @Valid UpdateTestDto updateTest);
 
     @Operation(summary = "Delete Test", description = "Valid after deleting all questions." +
             "Available to admin")
@@ -91,7 +92,6 @@ public interface TestsApi {
     })
     @DeleteMapping("api/tests/{test_id}")
     TestDto deleteTest(@PathVariable("test_id") Long testId);
-
 
 
 }

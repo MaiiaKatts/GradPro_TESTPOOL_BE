@@ -21,11 +21,12 @@ public class AnswersController implements AnswersApi {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
     public AnswerDto addAnswerToQuestion(Long questionId, NewAnswerDto newAnswer) {
-        return answersService.addAnswerToQuestion(questionId,newAnswer);
+        return answersService.addAnswerToQuestion(questionId, newAnswer);
     }
+
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
-    public List<AnswerDto> getAllAnswers(){
+    public List<AnswerDto> getAllAnswers() {
         return answersService.getAllAnswers();
     }
 
@@ -34,11 +35,13 @@ public class AnswersController implements AnswersApi {
     public AnswerDto updateAnswerInQuestion(Long questionId, Long answerId, UpdateAnswerDto updateAnswer) {
         return answersService.updateAnswerInQuestion(questionId, answerId, updateAnswer);
     }
+
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
     public AnswerDto deleteAnswerFromQuestion(Long questionId, Long answerId) {
         return answersService.deleteAnswerFromQuestion(questionId, answerId);
     }
+
     @PreAuthorize("hasAnyAuthority('USER')")
     @Override
     public ResponseEntity<String> getCorrectAnswer(Long selectedAnswerId) {

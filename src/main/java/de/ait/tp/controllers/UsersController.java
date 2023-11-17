@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 
@@ -25,7 +27,7 @@ public class UsersController implements UsersApi {
     public UserDto getConfirmation(String confirmCode){
         return usersService.confirm(confirmCode);
     }
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @Override
     public UserDto getProfile(AuthenticatedUser user) {
         Long currentUserId = user.getId();
@@ -43,8 +45,8 @@ public class UsersController implements UsersApi {
     }
 
     @Override
-    public Pagination getAllUsers(int page, int size, String orderBy, Boolean desc) {
-        return usersService.getAllUsers(page, size, orderBy, desc);
+    public List<UserDto> getAllUsers() {
+        return usersService.getAllUsers();
     }
 
 

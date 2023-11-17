@@ -20,6 +20,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class QuestionWithAnswersDto {
+
+    @Schema(description = "Question with answers id", example = "1")
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    private Long id;
     @Schema(description = "Question", example = "What is an interface in Java?")
     @NotNull
     @NotBlank
@@ -53,6 +59,7 @@ public class QuestionWithAnswersDto {
             Question question, Answer answer1,Answer answer2,Answer answer3, Answer answer4) {
 
         QuestionWithAnswersDto result= QuestionWithAnswersDto.builder()
+                .id(question.getId())
                 .question(question.getQuestion())
                 .answer1(answer1.getAnswer())
                 .answer2(answer2.getAnswer())

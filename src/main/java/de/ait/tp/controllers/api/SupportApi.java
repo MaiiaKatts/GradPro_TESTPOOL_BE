@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tags(value=@Tag(name = "Support"))
+@Tags(value = @Tag(name = "Support"))
 @Schema(name = "Support", description = "Contact with admin")
 public interface SupportApi {
 
@@ -28,6 +28,6 @@ public interface SupportApi {
                             schema = @Schema(implementation = StandardResponseDto.class)))
     })
 
-            @PostMapping("/api/sendEmail")
+    @PostMapping("/api/sendEmail")
     String sendSupportEmail(@RequestBody SupportEmailRequest emailRequest);
 }

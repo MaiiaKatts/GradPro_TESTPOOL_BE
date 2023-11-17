@@ -1,5 +1,6 @@
 package de.ait.tp.repositories;
 
+import de.ait.tp.dto.TestResultDto;
 import de.ait.tp.models.Test;
 import de.ait.tp.models.TestResult;
 import de.ait.tp.models.User;
@@ -17,7 +18,7 @@ public interface TestResultRepository extends JpaRepository<TestResult, Long> {
 
     TestResult findTopByUserIdAndTestIdOrderByIdDesc(Long userId, Long testId);
 
-    List<TestResult> findAllByUserId(Long userId);
+    List<TestResultDto> findAllByUserId(Long userId);
 
 }
 

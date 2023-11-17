@@ -1,5 +1,7 @@
 package de.ait.tp.service.impl;
 
+import de.ait.tp.dto.TestResultDto;
+import de.ait.tp.dto.TestTotalResultDto;
 import de.ait.tp.models.*;
 import de.ait.tp.repositories.TestResultRepository;
 import de.ait.tp.repositories.TestTotalResultRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import static de.ait.tp.dto.TestTotalResultDto.from;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +34,7 @@ public class TestResultServiceImpl implements TestResultService {
 
     @Override
 
-    public int calculateCorrectAnswersAndSum(Long userId, Long testId, List<Long> userAnswers) {
+    public TestTotalResultDto calculateCorrectAnswersAndSum(Long userId, Long testId, List<Long> userAnswers) {
       //  int maxPoints = 3;
         TestResult previousResult = testResultRepository.findTopByUserIdAndTestIdOrderByIdDesc(userId, testId);
 
@@ -67,7 +70,7 @@ public class TestResultServiceImpl implements TestResultService {
     }
 
     @Override
-    public List<TestResult> getTestResultsForUser(Long userId) {
+    public List<TestResultDto> getTestResultsForUser(Long userId) {
         return testResultRepository.findAllByUserId(userId);
     }
 
@@ -76,7 +79,7 @@ public class TestResultServiceImpl implements TestResultService {
     }
 
     @Override
-    public int calculateTotalCorrectAnswers(Long userId) {
+    public  TestTotalResultDto calculateTotalCorrectAnswers(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -100,7 +103,7 @@ public class TestResultServiceImpl implements TestResultService {
         totalResult.setTestTaken(totalTestsTaken);
         testTotalResultRepository.save(totalResult);
 
-        return totalCorrectAnswers;
+        return TestTotalResultDto.from(totalResult);
     }
 
     @Override

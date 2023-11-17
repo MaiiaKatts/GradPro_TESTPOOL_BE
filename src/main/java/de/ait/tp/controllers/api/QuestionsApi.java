@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-        @ApiResponse(responseCode = "401",
-                description = "Admin unauthorized",
-                content = @Content(mediaType = "application/json",
-                        schema = @Schema(implementation = StandardResponseDto.class)))
+@ApiResponse(responseCode = "401",
+        description = "Admin unauthorized",
+        content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = StandardResponseDto.class)))
 
-@Tags(value=@Tag(name = "Questions"))
+@Tags(value = @Tag(name = "Questions"))
 @Schema(name = "Question", description = "Questions")
 
 public interface QuestionsApi {
 
     @Operation(summary = "Adding a question", description = "Available to admin ")
-    @ApiResponses(value ={
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Question added successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = QuestionDto.class))),
@@ -42,18 +42,18 @@ public interface QuestionsApi {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = StandardResponseDto.class)))
 
-})
+    })
     @PostMapping("/api/tests/{test_id}/questions")
     @ResponseStatus(HttpStatus.CREATED)
     QuestionDto addQuestionToTest(@PathVariable("test_id") Long testId,
-            @RequestBody @Valid NewQuestionDto newQuestion);
+                                  @RequestBody @Valid NewQuestionDto newQuestion);
 
     @Operation(summary = "Receiving 10 questions with answers selectively from a given list ",
             description = "Available to user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = QuestionDto.class))),
+                            schema = @Schema(implementation = QuestionWithAnswersDto.class))),
             @ApiResponse(responseCode = "404",
                     description = "Questions not found ",
                     content = @Content(mediaType = "application/json",
@@ -70,7 +70,7 @@ public interface QuestionsApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = QuestionDto.class))),
+                            schema = @Schema(implementation = AllQuestionsDto.class))),
             @ApiResponse(responseCode = "404",
                     description = "Questions not found ",
                     content = @Content(mediaType = "application/json",
@@ -88,7 +88,7 @@ public interface QuestionsApi {
             @ApiResponse(responseCode = "200",
                     description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = QuestionDto.class))
+                            schema = @Schema(implementation = UpdateQuestionDto.class))
             ),
             @ApiResponse(responseCode = "404",
                     description = "Question not found",
@@ -110,8 +110,8 @@ public interface QuestionsApi {
 
     @PutMapping("/api/tests/{test_id}/questions/{question_id}")
     QuestionDto updateQuestionInTest(@PathVariable("test_id") Long testId,
-                                   @PathVariable("question_id") Long questionId,
-                                   @RequestBody @Valid UpdateQuestionDto updateQuestion);
+                                     @PathVariable("question_id") Long questionId,
+                                     @RequestBody @Valid UpdateQuestionDto updateQuestion);
 
     @Operation(summary = "Delete Question", description = "Valid after deleting four answers." +
             "Available to admin")

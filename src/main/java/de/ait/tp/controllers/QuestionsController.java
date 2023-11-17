@@ -20,28 +20,32 @@ public class QuestionsController implements QuestionsApi {
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
-    public QuestionDto addQuestionToTest(Long testId,NewQuestionDto newQuestion)  {
-        return questionsService.addQuestionToTest(testId,newQuestion);
+    public QuestionDto addQuestionToTest(Long testId, NewQuestionDto newQuestion) {
+        return questionsService.addQuestionToTest(testId, newQuestion);
     }
+
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
-    public List<QuestionDto> getAllQuestions()
-    {
+    public List<QuestionDto> getAllQuestions() {
         return questionsService.getAllQuestions();
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
     public QuestionDto updateQuestionInTest(Long testId, Long questionId, UpdateQuestionDto updateQuestion) {
-        return questionsService.updateQuestionInTest(testId,questionId,updateQuestion);
+        return questionsService.updateQuestionInTest(testId, questionId, updateQuestion);
     }
+
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Override
-    public QuestionDto deleteQuestionFromTest( Long questionId) {
+    public QuestionDto deleteQuestionFromTest(Long questionId) {
         return questionsService.deleteQuestionFromTest(questionId);
     }
+
     @PreAuthorize("hasAnyAuthority('USER')")
     public List<QuestionWithAnswersDto> getAllQuestionIds(Long testId) {
         return questionsService.getAllQuestionIds(testId);
 
-    }}
+
+    }
+}

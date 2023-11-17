@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 public class TestTotalResult {
 
+    public Long getTotalCorrectAnswer;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,27 +18,28 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AnswerDto {
+@Schema(description = "Array of all answers", example = "[{\"id\": 1," +
+        " \"answer\": \"answer1\", \"isCorrect\": \"true\",\"questionId\": 6}]")
+public class AllAnswersDto {
 
-    @Schema(description = "Answer_ID", example = "1")
-    @Positive
+    @Schema(description = "Answer_ID")
     private Long id;
-    @Schema(description = "Answer",example= "answer1")
+    @Schema(description = "Answer")
     @NotNull
     @NotBlank
     @NotEmpty
     private String answer;
-    @Schema(description = "Correct answer",example= "true")
+    @Schema(description = "Correct answer")
     @NotNull
     @NotBlank
     @NotEmpty
     private boolean isCorrect;
-    @Schema(description = "Question_ID",example= "2")
+    @Schema(description = "Question_ID")
     @NotNull
     private Long questionId;
 
-    public static AnswerDto from(Answer answer) {
-        return AnswerDto.builder()
+    public static de.ait.tp.dto.AnswerDto from(Answer answer) {
+        return de.ait.tp.dto.AnswerDto.builder()
                 .id(answer.getId())
                 .answer(answer.getAnswer())
                 .isCorrect(answer.isCorrect())
@@ -47,8 +47,10 @@ public class AnswerDto {
                 .build();
     }
 
-    public static List<AnswerDto> from(Collection<Answer> answers){
+    public static List<de.ait.tp.dto.AnswerDto> from(Collection<Answer> answers) {
         return answers.stream()
-                .map(AnswerDto::from).collect(Collectors.toList());
+                .map(de.ait.tp.dto.AnswerDto::from).collect(Collectors.toList());
     }
 }
+
+

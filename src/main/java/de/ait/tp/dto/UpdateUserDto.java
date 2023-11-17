@@ -14,7 +14,9 @@ import lombok.Setter;
 @Schema(name = "UpdateUser",description = "Name,types or level update " )
 
 public class UpdateUserDto {
-    @Schema(description = "User firstname", example = "Kristina")
+    @Schema(description = "User ID",example = "1")
+    private Long id;
+    @Schema(description = "User firstname", example = "Kristi")
     private String firstName;
     @Schema(description = "User lastname", example = "Romanova")
     private String lastName;

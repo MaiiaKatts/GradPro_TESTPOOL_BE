@@ -12,7 +12,7 @@ public interface UsersService {
     UserDto getUserById(Long currentUserId);
     UserDto confirm(String confirmCode);
    // List<UserDto> getAllUsers();
-    Pagination getAllUsers(int page, int size, String orderBy, Boolean desc);
+    List<UserDto> getAllUsers();
     UserDto updateUser(Long userId, UpdateUserDto updateUser);
     UserDto deleteUser(Long userId);
 }

@@ -17,6 +17,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+
 @Tags(value = @Tag(name = "Users"))
 @RequestMapping("/api/users")
 
@@ -88,7 +90,7 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200",
                     description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TestDto.class))
+                            schema = @Schema(implementation = UpdateUserDto.class))
             ),
             @ApiResponse(responseCode = "404",
                     description = "User not found",
@@ -113,7 +115,7 @@ public interface UsersApi {
             @ApiResponse(responseCode = "200",
                     description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TestDto.class))
+                            schema = @Schema(implementation = UserDto.class))
             ),
             @ApiResponse(responseCode = "404",
                     description = "User not found",
@@ -128,7 +130,7 @@ public interface UsersApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Request processed successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = QuestionDto.class))),
+                            schema = @Schema(implementation = AllUsersDto.class))),
             @ApiResponse(responseCode = "404",
                     description = "Users not found ",
                     content = @Content(mediaType = "application/json",
@@ -139,6 +141,5 @@ public interface UsersApi {
                             schema = @Schema(implementation = StandardResponseDto.class)))
     })
     @GetMapping
-    Pagination getAllUsers(@RequestParam("page") int page, @RequestParam("size") int size,
-                          @RequestParam("orderBy") String orderBy, @RequestParam(value = "desc", required = false) Boolean desc);
+    List<UserDto> getAllUsers();
 }

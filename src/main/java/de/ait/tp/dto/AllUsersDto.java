@@ -15,21 +15,24 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "User",description = "User data")
-public class UserDto {
+@Schema(description = "Array of all users", example = "[{\"id\": 1," +
+        " \"firstName\": \"Kristina\", \"lastName\": \"Romanova\", \"email\": \"kristina@mail.ru\"," +
+        " \"role\": \"USER\"}]")
+public class AllUsersDto {
 
-    @Schema(description = "User ID",example = "1")
+    @Schema(description = "User ID")
     private Long id;
-    @Schema(description = "User firstname", example = "Kristina")
+    @Schema(description = "User firstname")
     private String firstName;
-    @Schema(description = "User lastname", example = "Romanova")
+    @Schema(description = "User lastname")
     private String lastName;
-    @Schema(description = "User email", example = "kristina@mail.ru")
+    @Schema(description = "User email")
     private String email;
-    @Schema(description = "Role of the user",example = "USER")
+    @Schema(description = "Role of the user")
     private String role;
-    public static UserDto from(User user){
-        return UserDto.builder()
+
+    public static de.ait.tp.dto.UserDto from(User user) {
+        return de.ait.tp.dto.UserDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -37,8 +40,10 @@ public class UserDto {
                 .role(user.getRole().toString())
                 .build();
     }
-    public static List<UserDto> from(Collection<User> users){
-        return users.stream().map(UserDto::from).collect(Collectors.toList());
+
+    public static List<de.ait.tp.dto.UserDto> from(Collection<User> users) {
+        return users.stream().map(de.ait.tp.dto.UserDto::from).collect(Collectors.toList());
     }
 }
+
 

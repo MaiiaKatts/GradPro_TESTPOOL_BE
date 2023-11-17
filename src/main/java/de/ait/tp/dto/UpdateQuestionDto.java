@@ -19,15 +19,19 @@ import javax.validation.constraints.Positive;
 @Schema(name = "UpdateQuestion",description = "Question update " )
 public class UpdateQuestionDto {
 
-    @Schema(description = "Question", example = "What is an interface in Java?")
+    @Schema(description = "Question_ID", example = "11")
+    @Positive
+    private Long id;
+    @Schema(description = "Question", example = "What is a.....?")
     @NotNull
     @NotBlank
     @NotEmpty
     private String question;
-   /* @Schema(description = "Test_ID", example = "5")
+    @Schema(description = "Test_ID", example = "5")
     @Positive
     @NotNull
-    private Long testId;*/
+    private Long testId;
+
 
 }
 

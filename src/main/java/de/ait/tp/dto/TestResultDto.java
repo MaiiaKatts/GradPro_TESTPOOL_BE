@@ -19,27 +19,31 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(description = "Array of Test Results", example = "[{\"id\": 1," +
+        " \"userId\": 3, \"testId\": 5, \"score\": 4," +
+        " \"date\": \"2024-01-01\", \"progressPercent\": 50}]")
 public class TestResultDto {
 
-    @Schema(description = "Test_Result_ID", example = "1")
+    @Schema(description = "Test_Result_ID")
     private Long id;
-    @Schema(description = "User_ID", example = "3")
+    @Schema(description = "User id")
     @NotNull
     @NotBlank
     @NotEmpty
     private Long userId;
-    @Schema(description = "Test_ID", example = "5")
+    @Schema(description = "Test id")
     @NotNull
     @NotBlank
     @NotEmpty
     private Long testId;
+    @Schema(description = "score")
     @NotNull
     @NotBlank
     @NotEmpty
     private int score;
-    @Schema(description = "Test date", example = "2024-01-01")
+    @Schema(description = "Test date")
     private LocalDate date;
-    @Schema(description = "Percentage progress indicator", example = "50")
+    @Schema(description = "Percentage progress indicator")
     private double  progressPercent;
 
     public static TestResultDto from(TestResult testResult) {

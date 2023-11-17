@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,6 +18,9 @@ import javax.validation.constraints.NotNull;
 @Schema(name = "UpdateAnswer",description = "Answer update " )
 public class UpdateAnswerDto {
 
+    @Schema(description = "Answer_ID", example = "10")
+    @Positive
+    private Long id;
     @Schema(description = "Answer",example= "answer1")
     @NotNull
     @NotBlank

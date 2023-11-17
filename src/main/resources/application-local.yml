@@ -27,7 +27,7 @@ base:
   url: https://${NGROK_ID}.ngrok-free.app
 
 myapp:
-  maxPoints: 3
-  maxQuestions: 3
+  maxPoints: 10
+  maxQuestions: 10
 
 

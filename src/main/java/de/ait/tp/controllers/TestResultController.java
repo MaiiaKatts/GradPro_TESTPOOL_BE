@@ -2,6 +2,8 @@ package de.ait.tp.controllers;
 
 import de.ait.tp.controllers.api.TestResultsApi;
 
+import de.ait.tp.dto.TestResultDto;
+import de.ait.tp.dto.TestTotalResultDto;
 import de.ait.tp.models.TestResult;
 import de.ait.tp.service.TestResultService;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +19,11 @@ public class TestResultController implements TestResultsApi {
     private final TestResultService testResultService;
 
     @Override
-    public int calculateAndSaveTestResult(Long userId, Long testId, List<Long> userAnswers) {
+    public TestTotalResultDto calculateAndSaveTestResult(Long userId, Long testId, List<Long> userAnswers) {
          return testResultService.calculateCorrectAnswersAndSum(userId, testId, userAnswers);
     }
     @Override
-    public List<TestResult> getTestResultsForUser(Long userId) {
+    public List<TestResultDto> getTestResultsForUser(Long userId) {
        return testResultService.getTestResultsForUser(userId);
 
    }

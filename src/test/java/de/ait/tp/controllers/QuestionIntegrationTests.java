@@ -183,7 +183,7 @@ public class QuestionIntegrationTests {
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
         public void return_list_of_random_questions() throws Exception {
 
-            List<Long> questions = Arrays.asList(1L,2L,3L);
+            List<Long> questions = Arrays.asList(1L,2L,3L,4L,5L,6L);
 
             QuestionsRepository questionsRepository = mock(QuestionsRepository.class);
             when(questionsRepository.getAllQuestionIdsByTestId(anyLong())).thenReturn(questions);
